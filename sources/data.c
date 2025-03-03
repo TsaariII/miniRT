@@ -6,7 +6,7 @@
 /*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 13:41:03 by nzharkev          #+#    #+#             */
-/*   Updated: 2025/02/18 15:03:55 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/20 15:12:39 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
  * for rendering. If either initialization fails, an error message is
  * displayed and the function returns FAILURE.
  *
- * Return: SUCCESS (0) on success, FAILURE (-1) on error.
+ * Return: SUCCESS (0) on success, FAILURE (1) on error.
  */
 static int	mlx_and_image(t_data *data)
 {
@@ -55,7 +55,7 @@ static int	mlx_and_image(t_data *data)
  *
  * If any allocation fails, the function returns FAILURE.
  *
- * Return: SUCCESS (0) on success, FAILURE (-1) on error.
+ * Return: SUCCESS (0) on success, FAILURE (1) on error.
  */
 static int	data_mallocs(t_data *data, char *file)
 {

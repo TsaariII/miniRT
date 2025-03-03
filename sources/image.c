@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   image.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: amaula <amaula@hive.fi>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 14:28:16 by nzharkev          #+#    #+#             */
-/*   Updated: 2025/02/18 15:08:42 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/25 12:12:09 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,12 @@ void	reset_scene(t_data *data)
 	data->camera->type = NONE;
 	data->light->obj->type = NONE;
 	data->ambient->obj->type = NONE;
-	read_objects(data);
+	if (read_objects(data) == FAILURE)
+	{
+		mlx_close_window(data->mlx);
+		return ;
+	}
 	select_object(data->camera, data);
-	printf("Scene resetted\n");
 	redraw(data);
+	printf("Scene resetted\n");
 }

@@ -6,7 +6,7 @@
 /*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 11:49:53 by amaula            #+#    #+#             */
-/*   Updated: 2025/02/18 15:01:17 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/20 15:11:02 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,14 @@ void	cylinder_checks(int (**checks)(char *))
  * If the cylinder orientation is not a unit vector, an error is returned.
  * The function assigns collision detection and printing functions to the object.
  *
- * Return: SUCCESS (0) on success, FAILURE (-1) if an error occurs.
+ * Return: SUCCESS (0) on success, FAILURE (1) if an error occurs.
  */
 int	assign_cylinder(t_object *cylinder, char **info)
 {
 	cylinder->location = parse_vector(info[1]);
 	cylinder->orientation = parse_vector(info[2]);
 	if (info[3][0] == '-')
-		return (FAILURE);
+		return (failure("Diameter cannot be negative value"));
 	cylinder->diameter = parse_double(info[3]);
 	cylinder->height = parse_double(info[4]);
 	cylinder->color = parse_color(info[5]);

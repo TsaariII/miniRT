@@ -6,7 +6,7 @@
 /*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 11:51:09 by amaula            #+#    #+#             */
-/*   Updated: 2025/02/18 15:38:28 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/20 15:14:19 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	plane_checks(int (**checks)(char *))
  * The orientation vector is normalized and stored in the object.
  * If the orientation is invalid or not normalized, it returns an error.
  *
- * Return: SUCCESS (0) on success, FAILURE (-1) on error.
+ * Return: SUCCESS (0) on success, FAILURE (1) on error.
  */
 int	assign_plane(t_object *plane, char **info)
 {

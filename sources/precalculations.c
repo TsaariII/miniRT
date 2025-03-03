@@ -6,7 +6,7 @@
 /*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:30:15 by amaula            #+#    #+#             */
-/*   Updated: 2025/02/18 15:40:19 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/26 15:58:33 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ t_image_plane	image_plane(t_object *camera)
 	t_vector		up;
 
 	info.view_distance = calc_view_distance(camera->fov);
-	up = vector(0, 1, 0);
+	up = vector(0, -1, 0);
 	if (fabs(camera->orientation.y) > 0.99)
 		up = vector(1, 0, 0);
 	info.u = normalize_vector(cross_product(up, camera->orientation));

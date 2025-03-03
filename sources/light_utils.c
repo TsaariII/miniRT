@@ -6,7 +6,7 @@
 /*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:32:42 by nzharkev          #+#    #+#             */
-/*   Updated: 2025/02/19 12:03:58 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/24 18:50:51 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,19 @@
  * - A shadow factor between 0.2 and 1.0, where 1.0 means fully lit and
  *   values closer to 0.2 mean the point is more occluded.
  */
-double	in_the_shadow(t_vector collision, t_object *light, t_data *data)
+double	in_the_shadow(t_ray *ray, t_object *light, t_data *data)
 {
 	t_ray	shadow;
-	double	light_dist;
 
-	light_dist = 0.0;
-	shadow.direction = normalize_vector(v_sub(light->location, collision));
-	shadow.start = v_sum(collision, v_mul(EPSILON, shadow.direction));
+	shadow.direction = normalize_vector(v_sub(light->location, ray->end));
+	shadow.start = v_sum(ray->end, v_mul(EPSILON, shadow.direction));
 	shadow.distance = DBL_MAX;
 	if (cast_ray(&shadow, data, 0))
 	{
-		light_dist = v_dist(light->location, collision);
-		if (shadow.distance + EPSILON < v_dist(light->location, collision))
-			return (fmax(0.2, shadow.distance / light_dist));
+		if (shadow.distance + EPSILON < v_dist(light->location, ray->end))
+			return (0);
 	}
-	return (1.0);
+	return (1);
 }
 
 /**

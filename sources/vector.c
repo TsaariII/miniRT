@@ -6,7 +6,7 @@
 /*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 11:49:29 by amaula            #+#    #+#             */
-/*   Updated: 2025/02/18 16:17:27 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/20 15:42:19 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,5 +119,5 @@ t_vector	reflect_vector(t_vector light_dir, t_vector normal)
  */
 int	is_normalized_vector(t_vector v)
 {
-	return (v_len(v) < 1 + EPSILON || v_len(v) > 1 - EPSILON);
+	return (v_len(v) < 1 + EPSILON && v_len(v) > 1 - EPSILON);
 }

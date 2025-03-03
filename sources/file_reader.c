@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file_reader.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: amaula <amaula@hive.fi>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 13:41:24 by nzharkev          #+#    #+#             */
-/*   Updated: 2025/02/18 16:16:31 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/25 11:53:09 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,20 @@
  * and that the object array has been allocated. If either is invalid,
  * it closes the file descriptor (if open) and frees the object array.
  *
- * Return: SUCCESS (0) if no errors, otherwise FAILURE (-1).
+ * Return: SUCCESS (0) if no errors, otherwise FAILURE (1).
  */
 static int	error_check(int fd, t_objarr *objarr)
 {
-	if (objarr == NULL || fd < 0)
+	if (objarr == NULL)
 	{
 		if (fd > 2)
 			close(fd);
+		return (failure("Failed to create objects array"));
+	}
+	if (fd < 0)
+	{
 		free_objarr(objarr);
-		return (FAILURE);
+		return (failure("Could not open file"));
 	}
 	return (SUCCESS);
 }
@@ -45,7 +49,7 @@ static int	error_check(int fd, t_objarr *objarr)
  * ambient lighting, and at least one visible object. If any of these
  * elements are missing, an error message is printed.
  *
- * Return: SUCCESS (0) if all elements are present, otherwise FAILURE (-1).
+ * Return: SUCCESS (0) if all elements are present, otherwise FAILURE (1).
  */
 static int	unique_check(t_data *data)
 {
@@ -60,13 +64,28 @@ static int	unique_check(t_data *data)
 	return (SUCCESS);
 }
 
+/**
+ * in_read - Processes a line from the scene description file.
+ *
+ * This function reads and validates a line from the input file, ensuring
+ * that it is not empty or a comment. If the line represents a valid object,
+ * it is added to the scene. If an error occurs, the function frees allocated
+ * memory and closes the file descriptor.
+ *
+ * @data: Pointer to the main data structure.
+ * @line: Pointer to the line string, which will be modified.
+ * @fd: File descriptor of the scene file.
+ *
+ * Return: SUCCESS (0) if the line is processed correctly,
+ *         FAILURE (1) if an error occurs.
+ */
 int	in_read(t_data *data, char **line, int fd)
 {
 	if (**line != '\0' && **line != '#' && add_object(data, *line) == FAILURE)
 	{
 		free(*line);
 		close(fd);
-		return (FAILURE);
+		return (failure("Could not add object to array"));
 	}
 	free(*line);
 	*line = trim_newline(get_next_line(fd));

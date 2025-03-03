@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   camera.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: amaula <amaula@hive.fi>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 11:53:05 by amaula            #+#    #+#             */
-/*   Updated: 2025/02/19 12:56:33 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/26 14:13:04 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	camera_checks(int (**checks)(char *))
  *
  * Returns:
  * - SUCCESS (0) if the camera is correctly assigned.
- * - FAILURE (-1) if FOV is out of range.
+ * - FAILURE (1) if FOV is out of range.
  */
 int	assign_camera(t_object *camera, char **info)
 {
@@ -73,7 +73,7 @@ void	print_camera(t_object *c)
 {
 	printf("Camera:   📷\n");
 	printf("Location: ");
-	print_vector(c->orientation);
+	print_vector(c->location);
 	printf("Orientation: ");
 	print_vector(c->orientation);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amaula <amaula@student.42.fr>              +#+  +:+       +#+        */
+/*   By: amaula <amaula@hive.fi>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 14:36:28 by amaula            #+#    #+#             */
-/*   Updated: 2025/02/19 14:37:45 by amaula           ###   ########.fr       */
+/*   Updated: 2025/02/27 15:42:28 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,20 @@
 # define HIT 1
 # define NO_HIT 0
 # define SHINE 32.0
+# define HAS_COLOR 0
+# define SPEC 0
 
 /* Dimensions of the image_plane and initial window size */
 # define X 1000
 # define Y 1000
 
 /* Number of times a ray reflects off a surface */
-# define REFLECTIONS 10
+# define REFLECTIONS 0
 
 /*	How reflective each surface is in range [0,1]
 	0 = not reflective at all
 	1 = completely reflective */
-# define REFLECTIVITY 1
+# define REFLECTIVITY 0
 
 # include "../MLX42/include/MLX42/MLX42.h"
 # include "../libft/includes/libft.h"
@@ -189,8 +191,8 @@ typedef struct s_light
 	t_object	*obj;
 	t_vector	light_dir;
 	t_vector	view_dir;
-	double		diffuse;
-	double		specular;
+	double		diff;
+	double		spec;
 	double		shine;
 	uint32_t	color;
 	int			r;
@@ -333,9 +335,12 @@ void			update_ray(t_ray *ray, t_object *object, double t);
 double			calc_t(double *t, t_vector v1, t_vector v2, double r);
 
 /*color.c*/
+
 uint32_t		mix_colors(uint32_t c1, uint32_t c2, double reflectivity);
 void			light_col(t_data *d, t_ray *ray, t_vector *f_col, double s_f);
 void			color_pixel(mlx_image_t *i, uint32_t pixel_c, int x, int y);
+t_vector		decompose_color(uint32_t color);
+uint32_t		recompose_color(t_vector color);
 
 /*cylinder.c*/
 
@@ -380,7 +385,7 @@ uint32_t		set_lights(t_data *d, t_ray *r, t_vector coll);
 
 /*light_utils.c*/
 
-double			in_the_shadow(t_vector coll, t_object *light, t_data *data);
+double			in_the_shadow(t_ray *ray, t_object *light, t_data *data);
 double			set_specular(t_vector norm, t_light *light);
 double			set_diffuse(t_vector normal, t_light *light);
 void			print_light(t_object *l);
@@ -449,6 +454,7 @@ void			select_object(t_object *object, t_data *data);
 int				min(int a, int b);
 int				max(int a, int b);
 char			*trim_newline(char *str);
+void			light_helper(t_vector *f_col, t_data *data, t_ray *ray);
 
 /*validation.c*/
 

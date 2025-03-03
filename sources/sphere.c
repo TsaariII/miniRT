@@ -6,7 +6,7 @@
 /*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 11:52:32 by amaula            #+#    #+#             */
-/*   Updated: 2025/02/18 15:47:29 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/20 15:06:41 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	assign_sphere(t_object *sphere, char **info)
 {
 	sphere->location = parse_vector(info[1]);
 	if (info[2][0] == '-')
-		return (FAILURE);
+		return (failure("Diameter cannot be negative value"));
 	sphere->diameter = parse_double(info[2]);
 	sphere->color = parse_color(info[3]);
 	sphere->collisionf = &sphere_collision;

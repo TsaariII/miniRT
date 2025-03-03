@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: amaula <amaula@hive.fi>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 11:50:26 by amaula            #+#    #+#             */
-/*   Updated: 2025/02/18 16:04:11 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/26 14:17:25 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,14 +89,11 @@ int	validate(char *line)
 	{
 		line = next_value(line);
 		if (line == NULL || (checks[i])(line) == 0)
-		{
-			printf("%s: Failed at check: %d\n", line, i);
-			return (FAILURE);
-		}
+			return (failure("Value validation failed"));
 		i++;
 	}
 	line = next_value(line);
 	if (line != NULL && *line != '\0')
-		return (FAILURE);
+		return (failure("Extra parameters"));
 	return (SUCCESS);
 }

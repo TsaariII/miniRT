@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validation_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: amaula <amaula@hive.fi>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 11:50:59 by amaula            #+#    #+#             */
-/*   Updated: 2025/02/18 16:03:58 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/27 15:43:32 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,26 +28,30 @@
  */
 static int	is_cs_double(char *ptr)
 {
-	int	periods;
-	int	digits;
+	t_vector	chars;
 
-	periods = 0;
-	digits = 0;
+	chars = vector(0, 0, 0);
 	if (*ptr == '-')
 		ptr++;
 	while (!ft_isspace(*ptr) && *ptr != '\0' && *ptr != ',')
 	{
 		if (ft_isdigit(*ptr))
-			digits++;
+		{
+			if (chars.x > 0)
+				chars.z++;
+			else
+				chars.y++;
+		}
 		else if (*ptr == '.')
-			periods++;
+			chars.x++;
 		else
 			return (0);
 		ptr++;
 	}
 	if (*ptr != ' ' && *ptr != '\0' && *ptr != ',')
 		return (0);
-	return (periods <= 1 && digits >= 1);
+	return (chars.x <= 1 && chars.y
+		+ chars.z >= 1 && chars.y < 10 && chars.z < 10);
 }
 
 /**
@@ -66,26 +70,30 @@ static int	is_cs_double(char *ptr)
  */
 int	is_double(char *ptr)
 {
-	int	periods;
-	int	digits;
+	t_vector	chars;
 
-	periods = 0;
-	digits = 0;
+	chars = vector(0, 0, 0);
 	if (*ptr == '-')
 		ptr++;
 	while (!ft_isspace(*ptr) && *ptr != '\0')
 	{
 		if (ft_isdigit(*ptr))
-			digits++;
+		{
+			if (chars.x > 0)
+				chars.z++;
+			else
+				chars.y++;
+		}
 		else if (*ptr == '.')
-			periods++;
+			chars.x++;
 		else
 			return (0);
 		ptr++;
 	}
 	if (*ptr != ' ' && *ptr != '\0')
 		return (0);
-	return (periods <= 1 && digits >= 1);
+	return (chars.x <= 1 && chars.y
+		+ chars.z >= 1 && chars.y < 10 && chars.z < 10);
 }
 
 /**
@@ -105,6 +113,7 @@ int	is_color(char *ptr)
 {
 	int	commas;
 	int	values;
+	int	i;
 
 	commas = 0;
 	values = 0;
@@ -112,8 +121,13 @@ int	is_color(char *ptr)
 	{
 		if (ft_isdigit(*ptr) && ft_atoi(ptr) / 256 == 0)
 			values++;
+		i = 0;
 		while (ft_isdigit(*ptr))
+		{
+			if (++i > 3)
+				return (0);
 			ptr++;
+		}
 		if (*ptr != ',')
 			break ;
 		commas++;
@@ -174,6 +188,8 @@ int	is_vector(char *ptr)
  */
 int	is_int(char *ptr)
 {
+	if (ft_strlen(ptr) > 3)
+		return (0);
 	while (!ft_isspace(*ptr) && *ptr != '\0')
 	{
 		if (!ft_isdigit(*ptr))

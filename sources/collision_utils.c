@@ -6,7 +6,7 @@
 /*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 11:52:49 by amaula            #+#    #+#             */
-/*   Updated: 2025/02/18 14:54:34 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/20 15:10:56 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	update_ray(t_ray *ray, t_object *object, double t)
  *
  * Returns:
  * - SUCCESS (0) if a valid intersection is found.
- * - FAILURE (-1) if there is no valid intersection.
+ * - FAILURE (1) if there is no valid intersection.
  */
 double	calc_t(double *t, t_vector v1, t_vector v2, double r)
 {

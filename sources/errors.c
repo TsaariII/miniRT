@@ -6,7 +6,7 @@
 /*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 13:38:45 by nzharkev          #+#    #+#             */
-/*   Updated: 2025/02/19 13:02:50 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/20 15:14:03 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
  * @message: The error message to be displayed.
  *
  * This function prints an error message to the console and returns
- * FAILURE (-1), which can be used to signal an error in function calls.
+ * FAILURE (1), which can be used to signal an error in function calls.
  *
- * Return: FAILURE (-1).
+ * Return: FAILURE (1).
  */
 int	failure(char *message)
 {

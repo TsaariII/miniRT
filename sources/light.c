@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   light.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: amaula <amaula@hive.fi>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:32:29 by nzharkev          #+#    #+#             */
-/*   Updated: 2025/02/19 12:59:55 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/25 12:12:39 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ void	lights_checks(int (**checks)(char *))
 {
 	checks[0] = &is_vector;
 	checks[1] = &is_double;
-	checks[2] = NULL;
+	checks[2] = &is_color;
+	checks[3] = NULL;
 }
 
 /**
@@ -59,8 +60,8 @@ void	lights_checks(int (**checks)(char *))
  */
 static void	create_light(t_light *light, t_ray *ray, t_vector coll)
 {
-	light->diffuse = 0.0;
-	light->specular = 0.0;
+	light->diff = 0.0;
+	light->spec = 0.0;
 	light->shine = SHINE;
 	light->light_dir = normalize_vector(v_sub(light->obj->location, coll));
 	light->view_dir = v_mul(-1, ray->direction);
@@ -88,17 +89,19 @@ uint32_t	set_lights(t_data *data, t_ray *ray, t_vector collision)
 
 	shadow_f = 1.0;
 	create_light(data->light, ray, collision);
-	data->ambient->color.x = ((data->ambient->obj->color >> 24) & 0xff) / 255.0;
-	data->ambient->color.y = ((data->ambient->obj->color >> 16) & 0xff) / 255.0;
-	data->ambient->color.z = ((data->ambient->obj->color >> 8) & 0xff) / 255.0;
-	data->ambient->color = v_mul(data->ambient->obj->brightness,
-			data->ambient->color);
-	final_col = data->ambient->color;
-	shadow_f = in_the_shadow(collision, data->light->obj, data);
+	data->ambient->color.x = ((data->ambient->obj->color >> 24) & 0xff);
+	data->ambient->color.y = ((data->ambient->obj->color >> 16) & 0xff);
+	data->ambient->color.z = ((data->ambient->obj->color >> 8) & 0xff);
+	final_col = v_sum(data->ambient->color, decompose_color(ray->color));
+	final_col = v_mul(0.5, final_col);
+	final_col = v_mul(data->ambient->obj->brightness, final_col);
+	shadow_f = in_the_shadow(ray, data->light->obj, data);
+	if (shadow_f == 0)
+		return (recompose_color(final_col));
 	light_col(data, ray, &final_col, shadow_f);
-	data->light->r = min(255, (int)(final_col.x * 255));
-	data->light->g = min(255, (int)(final_col.y * 255));
-	data->light->b = min(255, (int)(final_col.z * 255));
+	data->light->r = min(255, (int)(final_col.x));
+	data->light->g = min(255, (int)(final_col.y));
+	data->light->b = min(255, (int)(final_col.z));
 	data->light->color = (data->light->r << 24 | data->light->g << 16
 			| data->light->b << 8 | 255);
 	return (data->light->color);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: amaula <amaula@hive.fi>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 11:53:48 by amaula            #+#    #+#             */
-/*   Updated: 2025/02/18 16:08:51 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/27 15:42:45 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,23 @@ char	*trim_newline(char *str)
 		return (str);
 	free(str);
 	return (trimmed);
+}
+
+void	light_helper(t_vector *f_col, t_data *data, t_ray *ray)
+{
+	if (HAS_COLOR == 1)
+	{
+		f_col->x += data->light->diff * (((ray->color >> 24) & 0xff)
+				+ ((data->light->obj->color >> 24) & 0xff));
+		f_col->y += data->light->diff * (((ray->color >> 16) & 0xff)
+				+ ((data->light->obj->color >> 16) & 0xff));
+		f_col->z += data->light->diff * (((ray->color >> 8) & 0xff)
+				+ ((data->light->obj->color >> 8) & 0xff));
+	}
+	else
+	{
+		f_col->x += data->light->diff * ((ray->color >> 24) & 0xff);
+		f_col->y += data->light->diff * ((ray->color >> 16) & 0xff);
+		f_col->z += data->light->diff * ((ray->color >> 8) & 0xff);
+	}
 }

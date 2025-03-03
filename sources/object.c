@@ -6,7 +6,7 @@
 /*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 14:03:22 by nzharkev          #+#    #+#             */
-/*   Updated: 2025/02/19 12:57:53 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/20 11:38:04 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,10 @@ static int	assign_light(t_object *light, char **info)
 {
 	light->location = parse_vector(info[1]);
 	light->brightness = parse_double(info[2]);
+	if (HAS_COLOR == 1)
+		light->color = parse_color(info[3]);
+	else
+		light->color = parse_color("255,255,255");
 	if (light->brightness > 1.0 || light->brightness < 0.0)
 		return (failure("Brightness should be [0.0, 1.0]"));
 	light->print_object = &print_light;
